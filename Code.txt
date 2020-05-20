@@ -1,0 +1,59 @@
+#include<Servo.h>
+# define IR_gate D1
+# define led D2
+# define IR_key A0
+# define vibration D0
+# define pir D6
+Servo s;
+void setup() {
+  // put your setup code here, to run once:
+pinMode(IR_gate,INPUT);
+pinMode(IR_key,INPUT);
+pinMode(vibration,INPUT);
+pinMode(led,OUTPUT);
+s.attach(2);
+digitalWrite(led,LOW);
+Serial.begin(9600);
+s.write(0);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+if(digitalRead(IR_gate)==HIGH)
+{
+  digitalWrite(led,HIGH);
+  Serial.println("gate closed");
+  delay(500);
+}
+else if(digitalRead(IR_gate)==LOW)
+{
+  digitalWrite(led,LOW);
+  delay(100);
+}
+if(analogRead(IR_key)>600)
+{
+  s.write(90);
+  Serial.println("ATM IS BEING RAIDED\\IR key");
+ // Serial.write("ATM IS BEING RAIDED\\IR key");
+  delay(5000);
+}
+if(digitalRead(vibration)==LOW)
+{
+
+  s.write(90);
+  //Serial.write("ATM IS BEING RAIDED\\vibration");
+  Serial.println("ATM IS BEING RAIDED\\vibration");
+  delay(5000);
+}
+if(digitalRead(pir)==HIGH)
+{ 
+  //Serial.write("ATM IS BEING RAIDED\\pIR ");
+  s.write(90);
+  Serial.println("ATM IS BEING RAIDED\\pIR ");
+  delay(2000);
+}
+
+digitalWrite(led,LOW);
+s.write(0);
+}
